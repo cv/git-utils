@@ -1,5 +1,24 @@
 #!/usr/bin/env ruby
 
+## git-wt-commit: A darcs-style interactive commit script for git. As the
+## name implies, git-walkthrough-commit walks you through unstaged
+## changes on a hunk-by-hunk basis and allows you to pick the ones you'd
+## like staged.
+##
+## git-wt-commit Copyright 2007 William Morgan <wmorgan-git-wt-commit@masanjin.net>.
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You can find the GNU General Public License at:
+##   http://www.gnu.org/licenses/
+
 class Hunk
   attr_reader :file, :file_header, :diff
   attr_accessor :disposition
