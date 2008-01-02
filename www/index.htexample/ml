@@ -2,36 +2,36 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>Git-walkthrough-commit</title>
+    <title>Git-walkthrough-add</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <link rel="stylesheet" href="main.css" type="text/css" />
   </head>
 
   <body>
-    <h1>Git-walkthrough-commit</h1>
+    <h1>Git-walkthrough-add (git-wt-add)</h1>
 
-    <p> Git-walkthrough-commit is a darcs-style interactive commit
+    <p> Git-wt-add is a darcs-style interactive staging
     script for git. It walks you through unstaged changes on a
     hunk-by-hunk basis and allows you to pick the ones you'd like
     staged. It features colorized diff output and a full set of
     navigation and dispatch commands. </p>
 
-    <p> Git-walkthrough-commit is based on <a href="http://thread.gmane.org/gmane.comp.version-control.git/41033">git-hunk-commit</a>
+    <p> Git-wt-add is based on <a href="http://thread.gmane.org/gmane.comp.version-control.git/41033">git-hunk-commit</a>
     --darcs, which was very close to what I wanted, but wasn't quite
-    it. In general git-walkthrough-commit makes no attempt to conform to the
+    it. In general git-wt-add makes no attempt to conform to the
     real darcs interface, but it's probably pretty close. </p>
 
-    <p> Git-walkthrough-commit is written in around 200 lines of Ruby. </p>
+    <p> Git-wt-add is written in around 200 lines of Ruby. </p>
 
     <h2>Screenshots</h2>
 
     <ul id="screenshots">
-      <li><a href="ss1.png"><img src="ss1-small.png" alt="Git-walkthrough-commit screenshot 1" /></a></li>
+      <li><a href="ss1.png"><img src="ss1-small.png" alt="git-wt-add screenshot 1" /></a></li>
     </ul>
 
     <h2>Getting it</h2>
 
-    <p> You can download the script <a href="git-wt-commit">here</a>. <p>
+    <p> You can download the script <a href="git-wt-add">here</a>. <p>
 
     <h2>Development</h2>
     <p> <code>git clone
@@ -41,7 +41,7 @@
 
     <h2>Credit</h2>
 
-    <p>Git-walkthrough-commit is brought to you by <a href="http://cs.stanford.edu/~ruby/">William Morgan</a>.
+    <p>Git-wt-add is brought to you by <a href="http://cs.stanford.edu/~ruby/">William Morgan</a>.
     </p>
   </body>
 </html>

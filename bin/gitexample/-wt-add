@@ -1,11 +1,10 @@
 #!/usr/bin/env ruby
 
-## git-wt-commit: A darcs-style interactive commit script for git. As the
-## name implies, git-walkthrough-commit walks you through unstaged
-## changes on a hunk-by-hunk basis and allows you to pick the ones you'd
-## like staged.
+## git-wt-add: A darcs-style interactive staging script for git. As the
+## name implies, git-wt-add walks you through unstaged changes on a
+## hunk-by-hunk basis and allows you to pick the ones you'd like staged.
 ##
-## git-wt-commit Copyright 2007 William Morgan <wmorgan-git-wt-commit@masanjin.net>.
+## git-wt-add Copyright 2007 William Morgan <wmorgan-git-wt-add@masanjin.net>.
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
 ## the Free Software Foundation, either version 3 of the License, or
