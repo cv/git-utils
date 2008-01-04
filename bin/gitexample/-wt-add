@@ -112,7 +112,7 @@ def walk_through hunks
 
       puts "Hunk from #{h.file}"
       puts h.diff
-      print "Shall I record this change? (#{pos + 1}/#{hunks.length}) [ynWsfqadk], or ? for help: "
+      print "Shall I stage this change? (#{pos + 1}/#{hunks.length}) [ynWsfqadk], or ? for help: "
       c = $stdin.getc
       puts
       case c
@@ -179,7 +179,7 @@ end
 
 patch = make_patch hunks
 if patch.empty?
-  puts "No changes to be staged."
+  puts "No changes selected for staging."
 else
   IO.popen("git apply --cached", "w") { |f| f.puts patch }
   puts <<EOS
