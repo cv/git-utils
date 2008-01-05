@@ -41,16 +41,16 @@ class Hunk
       begin
         reprocess = false
         case
-        when state == :outside && l =~ /^#{COLOR}diff --git a\/(.*) b\/(\1)/
+        when state == :outside && l =~ /^(#{COLOR})*diff --git a\/(.+) b\/(\2)/
           file = $1
           file_header = ""
-        when state == :outside && l =~ /^#{COLOR}index /
-        when state == :outside && l =~ /^#{COLOR}(---|\+\+\+) /
+        when state == :outside && l =~ /^(#{COLOR})*index /
+        when state == :outside && l =~ /^(#{COLOR})*(---|\+\+\+) /
           file_header += l + "\n"
-        when state == :outside && l =~ /^#{COLOR}@@ /
+        when state == :outside && l =~ /^(#{COLOR})*@@ /
           state = :in_hunk
           hunk = l + "\n"
-        when state == :in_hunk && l =~ /^#{COLOR}(@@ |diff --git a)/
+        when state == :in_hunk && l =~ /^(#{COLOR})*(@@ |diff --git a)/
           ret << Hunk.new(file, file_header, hunk)
           state = :outside
           reprocess = true
@@ -163,7 +163,7 @@ end
 
 ### execution starts here ###
 
-diff = `git diff --color`.split(/\r?\n/)
+diff = `git diff`.split(/\r?\n/)
 if diff.empty?
   puts "No unstaged changes."
   exit
