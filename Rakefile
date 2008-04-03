@@ -9,7 +9,7 @@ SCREENSHOTS_SMALL = SCREENSHOTS.map do |fn|
   sfn
 end
 
-WWW_FILES = FileList["www/*"] - SCREENSHOTS - SCREENSHOTS_SMALL + ["bin/git-wt-add"]
+WWW_FILES = FileList["www/*"] - SCREENSHOTS - SCREENSHOTS_SMALL + FileList["bin/*"]
 
 task :upload_webpage => WWW_FILES do |t|
   sh "scp -C #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/git-wt-commit/"
