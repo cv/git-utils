@@ -42,7 +42,7 @@ class Hunk
         reprocess = false
         case
         when state == :outside && l =~ /^(#{COLOR})*diff --git a\/(.+) b\/(\2)/
-          file = $1
+          file = $2
           file_header = ""
         when state == :outside && l =~ /^(#{COLOR})*index /
         when state == :outside && l =~ /^(#{COLOR})*(---|\+\+\+) /
