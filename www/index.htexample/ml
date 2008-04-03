@@ -11,19 +11,15 @@
     <h1>William's random git tools</h1>
 
     <p> Here are a bunch of random git-related tools I've found useful at some
-    point and wanted to share. The git repository for all of these is cloneable
-    at <code>git://repo.or.cz/git-walkthrough-commit.git</code>, and you can
-    also <a href="http://repo.or.cz/w/git-walkthrough-commit.git">browse it
-    here</a>. </p>
+    point. The git repository for all of these is cloneable
+    at <code>git://repo.or.cz/git-walkthrough-commit.git</code> (<a href="http://repo.or.cz/w/git-walkthrough-commit.git">browse</a>).  </p>
 
     <h2>Git-show-merges</h2>
 
-    <p> Git-show-merges is a simple tool for people with lots of topic
+    <p> <a href="git-show-merges">git-show-merges</a> is a simple tool for people with lots of topic
     branches. It shows you which branches have been merged in to the current
     branch, and which haven't. That's it. You can also specify multiple
-    non-topic branches (merge branches?) on the commanline.</p>
-
-    <p> You can download the script <a href="git-show-merges">here</a>. <p>
+    non-topic branches (merge branches?) on the commandline.</p>
 
     <p> <a href="ss2.png"><img src="ss2-small.png" alt="git-show-merges screenshot"/></a>  </p>
 
@@ -33,12 +29,10 @@
     does. So I will not be putting a lot of energy into maintaining this any
     more.</i> </p>
 
-    <p> Git-wt-add is a darcs-style interactive staging script for git. It
+    <p> <a href="git-wt-add">git-wt-add</a> is a darcs-style interactive staging script for git. It
     walks you through unstaged changes on a hunk-by-hunk basis and allows you
     to pick the ones you'd like staged. It features colorized diff output and a
     full set of navigation and dispatch commands.  </p>
-
-    <p> You can download the script <a href="git-wt-add">here</a>. <p>
 
     <p> Git-wt-add is based on <a
     href="http://thread.gmane.org/gmane.comp.version-control.git/41033">git-hunk-commit</a>
