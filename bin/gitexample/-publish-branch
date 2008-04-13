@@ -1,0 +1,89 @@
+#!/usr/bin/env ruby
+
+## git-publish-branch: a simple script to ease the unnecessarily complex
+## task of "publishing" a branch, i.e., create a reference to a branch on a
+## remote repo, and setting up your local branch to track that, in one go.
+##
+## Usage: git publish-branch [-d] <branch> [repository]
+##
+## '-d' signifies deletion. <branch> is the branch to publish, and
+## [repository] defaults to "origin". The remote branch name will be the same
+## as the local branch name. Don't make life unnecessarily complex for
+## yourself.
+##
+## git-publish-branch Copyright 2008 William Morgan <wmorgan-git-wt-add@masanjin.net>. 
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or (at
+## your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You can find the GNU General Public License at:
+##   http://www.gnu.org/licenses/
+
+class CuteExecError < StandardError; end
+def cute_exec cmd
+  puts cmd
+  output = `#{cmd}`
+  unless $?.success?
+    $stderr.puts output
+    raise CuteExecError
+  end
+end
+
+if ARGV.empty?
+  $stderr.puts "Need at least one argument: the branch to publish."
+end
+
+delete = ARGV.delete "-d"
+branch = ARGV.shift.gsub(/refs\/heads\//, "")
+remote = ARGV.shift || "origin"
+head = `git-symbolic-ref HEAD`.chomp.gsub(/refs\/heads\//, "")
+local_ref = `git show-ref heads/#{branch}`
+remote_ref = `git show-ref remotes/#{remote}/#{branch}`
+
+## deletion is actually a pretty easy case, so we just go for it here
+if delete
+  puts "## unpublishing #{branch} from #{remote}..."
+  begin
+    cute_exec "git push #{remote} :refs/heads/#{branch}"
+  rescue CuteExecError
+  end
+
+  exit
+end
+
+## the hard case: publishing
+puts "## publishing #{branch} to #{remote}..."
+
+if local_ref.empty?
+  $stderr.puts "No local branch #{branch} exists!"
+  exit(-1)
+end
+
+unless remote_ref.empty?
+  $stderr.puts "A remote branch #{branch} on #{remote} already exists!"
+  exit(-1)
+end
+
+tmp_branch = nil
+begin
+  if head == branch
+    puts "## you're currently on #{branch}. moving to a temp branch."
+    tmp_branch = "tmp-#{Time.now.to_i}-#{rand 1000}"
+    cute_exec "git checkout -b #{tmp_branch}"
+  end
+
+  cute_exec "git push #{remote} #{branch}:refs/heads/#{branch}"
+  cute_exec "git branch -f --track #{branch} #{remote}/#{branch}"
+rescue CuteExecError
+ensure
+  if head == branch
+    cute_exec "git checkout #{branch}"
+    cute_exec "git branch -d #{tmp_branch}"
+  end
+end
