@@ -23,6 +23,20 @@
 
     <p> <a href="ss2.png"><img src="ss2-small.png" alt="git-show-merges screenshot"/></a>  </p>
 
+    <h2>git-rank-contributors</h2>
+
+    <p> <a href="git-rank-contributors">git-rank-contributors</a> is a trivial
+    script that paws through your logs and ranks all the contributors by
+    the size of their diffs. Remember, as always, bigger is better!</p>
+
+    <p> If you use <code>-v</code>, you'll get the raw diff sizes.</p>
+
+    <p> If you use <code>-o</code>, you'll get high-tech email obfuscation.</p>
+
+    <p> Output with just <code>-o</code> may be suitable for piping into a
+    CREDITS file. It probably will require some editing in case people submit
+    from more than one email address, though. </p>
+
     <h2>git-walkthrough-add</h2>
 
     <p> <i>In recent gits, <code>git add -p</code> does exactly what this tool
