@@ -23,6 +23,19 @@
 
     <p> <a href="ss2.png"><img src="ss2-small.png" alt="git-show-merges screenshot"/></a>  </p>
 
+    <h2>git-publish-branch</h2>
+
+    <p> <a href="git-publish-branch">git-publish-branch</a> is a simple script
+    to ease the unnecessarily complex task of "publishing" a branch, i.e.,
+    creating a reference to an existing branch on a remote repo, and setting up
+    your local branch to track that remote reference. </p>
+
+    <p> You give it a branch name, and that branch is published in your remote
+    repository. That's it. If you use <code>-d</code>, it will delete the
+    remote reference.</p>
+
+    <p>Useful if you publish your topic branches to the outside world.</p>
+
     <h2>git-rank-contributors</h2>
 
     <p> <a href="git-rank-contributors">git-rank-contributors</a> is a trivial
