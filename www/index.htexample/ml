@@ -14,7 +14,7 @@
     point. The git repository for all of these is cloneable
     at <code>git://repo.or.cz/git-walkthrough-commit.git</code> (<a href="http://repo.or.cz/w/git-walkthrough-commit.git">browse</a>).  </p>
 
-    <h2>Git-show-merges</h2>
+    <h2>git-show-merges</h2>
 
     <p> <a href="git-show-merges">git-show-merges</a> is a simple tool for people with lots of topic
     branches. It shows you which branches have been merged in to the current
@@ -23,7 +23,7 @@
 
     <p> <a href="ss2.png"><img src="ss2-small.png" alt="git-show-merges screenshot"/></a>  </p>
 
-    <h2>Git-walkthrough-add</h2>
+    <h2>git-walkthrough-add</h2>
 
     <p> <i>In recent gits, <code>git add -p</code> does exactly what this tool
     does. So I will not be putting a lot of energy into maintaining this any
@@ -34,7 +34,7 @@
     to pick the ones you'd like staged. It features colorized diff output and a
     full set of navigation and dispatch commands.  </p>
 
-    <p> Git-wt-add is based on <a
+    <p> git-wt-add is based on <a
     href="http://thread.gmane.org/gmane.comp.version-control.git/41033">git-hunk-commit</a>
     --darcs, which was very close to what I wanted, but wasn't quite it. In
     general git-wt-add makes no attempt to conform to the real darcs interface,
