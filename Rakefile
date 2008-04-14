@@ -12,11 +12,11 @@ end
 WWW_FILES = FileList["www/*"] - SCREENSHOTS - SCREENSHOTS_SMALL + FileList["bin/*"]
 
 task :upload_webpage => WWW_FILES do |t|
-  sh "scp -C #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/git-wt-commit/"
+  sh "rsync -essh -cavz #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/git-wt-commit/"
 end
 
 task :upload_webpage_images => (SCREENSHOTS + SCREENSHOTS_SMALL) do |t|
-  sh "scp -C #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/git-wt-commit/"
+  sh "rsync -essh -cavz #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/git-wt-commit/"
 end
 
 # vim: syntax=ruby
