@@ -27,8 +27,8 @@
 
     <p> <a href="git-publish-branch">git-publish-branch</a> is a simple script
     to ease the unnecessarily complex task of "publishing" a branch, i.e.,
-    creating a reference to an existing branch on a remote repo, and setting up
-    your local branch to track that remote reference. </p>
+    taking a local branch, creating a reference to it on a remote repo, and
+    setting up the local branch to track the remote one, all in one go. </p>
 
     <p> You give it a branch name, and that branch is published in your remote
     repository. That's it. If you use <code>-d</code>, it will delete the
