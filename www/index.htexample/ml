@@ -71,7 +71,11 @@
 
     <h2>Credit</h2>
 
-    <p>This collection of vaguely useful tools is brought to you by <a href="http://cs.stanford.edu/~ruby/">William Morgan</a>.
+    <p>This collection of vaguely useful tools is brought to you by <a href="http://cs.stanford.edu/~ruby/">William Morgan</a> and the following contributors:
+
+    <ul>
+      <li> Jeff Balogh &lt;its.jeff.balogh at the gmail dot coms&gt; </li>
+    </ul>
     </p>
   </body>
 </html>
