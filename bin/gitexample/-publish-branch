@@ -40,12 +40,10 @@ def die s=nil
   exit(-1)
 end
 
-die "Need at least one argument: the branch to (un)publish." if ARGV.empty?
-
-delete = ARGV.delete "-d"
-branch = ARGV.shift.gsub(/refs\/heads\//, "")
-remote = ARGV.shift || "origin"
 head = `git-symbolic-ref HEAD`.chomp.gsub(/refs\/heads\//, "")
+delete = ARGV.delete "-d"
+branch = (ARGV.shift || head).gsub(/refs\/heads\//, "")
+remote = ARGV.shift || "origin"
 local_ref = `git show-ref heads/#{branch}`
 remote_ref = `git show-ref remotes/#{remote}/#{branch}`
 remote_config = `git config branch.#{branch}.merge`
