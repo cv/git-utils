@@ -32,7 +32,7 @@
 
 def exec cmd
   puts cmd
-  system cmd or die
+  system cmd or die unless $fake
 end
 
 def die s=nil
@@ -42,6 +42,7 @@ end
 
 head = `git-symbolic-ref HEAD`.chomp.gsub(/refs\/heads\//, "")
 delete = ARGV.delete "-d"
+$fake = ARGV.delete "-n"
 branch = (ARGV.shift || head).gsub(/refs\/heads\//, "")
 remote = ARGV.shift || "origin"
 local_ref = `git show-ref heads/#{branch}`
