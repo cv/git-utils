@@ -27,20 +27,20 @@ class String
 end
 
 lines = {}
-state = :pre_author
-author = nil
 verbose = ARGV.delete("-v")
 obfuscate = ARGV.delete("-o")
 
-`git log -p`.each do |l|
+author = nil
+state = :pre_author
+`git log -p --no-color`.each do |l|
   case
-  when state == :pre_author && l =~ /Author: (.*)$/
+  when (state == :pre_author || state == :post_author) && l =~ /Author: (.*)$/
     author = $1
     state = :post_author
     lines[author] ||= 0
   when state == :post_author && l =~ /^\+\+\+/
     state = :in_diff
-  when state == :in_diff && l =~ /^[\+\-] /
+  when state == :in_diff && l =~ /^[\+\-]/
     lines[author] += 1
   when state == :in_diff && l =~ /^commit /
     state = :pre_author
