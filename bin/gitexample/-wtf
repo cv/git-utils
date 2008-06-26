@@ -5,6 +5,11 @@ CONFIG_FN = ".git-wtfrc"
 
 class Numeric; def pluralize s; "#{to_s} #{s}" + (self != 1 ? "s" : "") end end
 
+def die s
+  $stderr.puts "Error: #{s}"
+  exit(-1)
+end
+
 ## find config file
 $config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
   p = File.expand_path "."
@@ -20,13 +25,11 @@ $config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
     YAML::load_file fn
   else
     #$stderr.puts "Warning: no config file found. Specify version branches by creating <project_root>/#{CONFIG_FN}"
-    { "versions" => %w(origin/master origin/next origin/edge) }
+    remotes = `git-config --get-regexp ^remote\\.`.split("\n")
+    die "I can't find your gits" if remotes.empty?
+    repo = remotes.first =~ /^remote\.(\S+?)\./ ? $1 : "origin"
+    { "versions" => %w(master next edge).map { |b| "#{repo}/#{b}" } }
   end
-end
-
-def die s
-  $stderr.puts "Error: #{s}"
-  exit(-1)
 end
 
 ## the set of commits in 'to' that aren't in 'from'.
