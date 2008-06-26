@@ -2,28 +2,122 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>William's random git tools</title>
+    <title>William's miscellaneous git tools</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <link rel="stylesheet" href="main.css" type="text/css" />
   </head>
 
   <body>
-    <h1>William's random git tools</h1>
+    <h1>William's miscellaneous git tools</h1>
 
-    <p> Here are a bunch of random git-related tools I've found useful at some
+    <p> Here are a bunch of git-related tools I've found useful at some
     point. The git repository for all of these is cloneable
-    at <code>git://repo.or.cz/git-walkthrough-commit.git</code> (<a href="http://repo.or.cz/w/git-walkthrough-commit.git">browse</a>).  </p>
+    at <code>git://gitorious.org/willgit/mainline.git/</code> (<a href="http://gitorious.org/projects/willgit/repos/mainline/logs/master">browse</a>).
+    </p>
 
-    <h2>git-show-merges</h2>
+    <p>
+    <ul>
+    <li><a href="#git-wtf">git-wtf</a>: understand the current state of your git repository.</li>
+    <li><a href="#git-show-merges">git-show-merges</a>: show which branches are merged into the current branch.</li>
+    <li><a href="#git-publish-branch">git-publish-branch</a>: publish a branch to a remote repository.</li>
+    <li><a href="#git-rank-contributors">git-rank-contributors</a>: rank all authors by patch size.</li>
+    <li><a href="#git-walkthrough-add">git-walkthrough-add</a>: (deprecated) like <code>git add -p</code>.</li>
+    </ul>
+    </p>
 
-    <p> <a href="git-show-merges">git-show-merges</a> is a simple tool for people with lots of topic
-    branches. It shows you which branches have been merged in to the current
-    branch, and which haven't. That's it. You can also specify multiple
+    <h2><a name="git-wtf">git-wtf</a></h2>
+
+    <p> <a href="git-wtf">git-wtf</a> is my primary tool for working with feature branches
+    since I've been trying to wean myself off of <code>gitk</code>. If you're on a feature
+    branch, it tells you which version branches it's merged into. If you're on a version
+    branch, it tells you which feature branches are merged in and which aren't. For every branch,
+    if it's a tracking branch, it tells you which commits need to be pulled and which need to be pushed.
+    </p>
+
+    <p>Use immediately after <code>git fetch</code>.</p>
+
+    <div class="screencap"><code><pre>
+w@entry:~/devel/sup$ git wtf
+Local branch: heads/next
+  [x] in sync with remote
+Remote branch: origin/next (git+ssh://wmorgan@repo.or.cz/srv/git/sup.git)
+  [x] in sync with local
+Feature branches:
+  [x] non-ascii-message-id is merged in
+  [ ] ncurses-widechar is NOT merged in (1 commit ahead; 83 commits behind)
+    - tmp [9676c71] (wmorgan-sup@masanjin.net; 8 weeks ago)
+  [ ] join-threads-bugfix is NOT merged in (1 commit ahead; 181 commits behind)
+    - tmp commit: debugging [a634c29] (wmorgan-sup@masanjin.net; 5 months ago)
+  [ ] imap-cache-headers is NOT merged in (1 commit ahead; 181 commits behind)
+    - temp commit [753c924] (wmorgan-sup@masanjin.net; 5 months ago)
+  [x] maildir-speedup is merged in
+  [ ] release-0.4 is NOT merged in (1 commit ahead; 248 commits behind)
+    - switch bin and lib versions from git -> 0.4 [df2da07] (wmorgan-sup@masanjin.net; 5 months ago)
+  [ ] mbox-parse-fix is NOT merged in (4 commits ahead; 76 commits behind)
+    - tmp [4df28ef] (wmorgan-sup@masanjin.net; 9 weeks ago)
+    - tmp [772db99] (wmorgan-sup@masanjin.net; 9 weeks ago)
+    - tmp [5c856a1] (wmorgan-sup@masanjin.net; 9 weeks ago)
+    - tmp [278ab13] (wmorgan-sup@masanjin.net; 9 weeks ago)
+  [ ] encoding-tweaking is NOT merged in (1 commit ahead; 81 commits behind)
+    - tmp [19fdca3] (wmorgan-sup@masanjin.net; 9 weeks ago)
+  [x] release-0.5 is merged in
+  [ ] local-changes-only is NOT merged in (1 commit ahead; 6 commits behind)
+    - rakefile: use local ditz [089d363] (wmorgan-sup@masanjin.net; 8 days ago)
+  [ ] imap-share-connections is NOT merged in (1 commit ahead; 181 commits behind)
+    - temp commit [f90a937] (wmorgan-sup@masanjin.net; 5 months ago)
+  [ ] todo-updates is NOT merged in (24 commits ahead; 286 commits behind)
+    - checkpoint bugs.yaml [e9f83af] (wmorgan-sup@masanjin.net; 3 months ago)
+    - checkpoint bugs.yaml [05230e3] (wmorgan-sup@masanjin.net; 3 months ago)
+    - checkpoint bugs.yaml [0c18af1] (wmorgan-sup@masanjin.net; 3 months ago)
+    - checkpoint bugs.yaml [0e0d945] (wmorgan-sup@masanjin.net; 4 months ago)
+    - checkpoint bugs.yaml [7e47447] (wmorgan-sup@masanjin.net; 4 months ago)
+      ... and 19 more.
+  [x] reply-from-hook is merged in
+  [x] color is merged in
+  [ ] ncursesw is NOT merged in (4 commits ahead; 84 commits behind)
+    - add run-this-for-sup.sh [1fb0049] (wmorgan-sup@masanjin.net; 9 weeks ago)
+    - tweak extconf.rb to require ncursesw instead of ncurses [e2b6018] (wmorgan-sup@masanjin.net; 9 weeks ago)
+    - remove generated files [e93f329] (wmorgan-sup@masanjin.net; 9 weeks ago)
+    - initial import of gem directory [a523ddc] (wmorgan-sup@masanjin.net; 9 weeks ago)
+  [x] edit-as-new-fix is merged in
+  [x] attachments is merged in
+  [x] find-in-buffer-fix is merged in
+</pre></code></div>
+
+    <h2><a name="git-show-merges">git-show-merges</a></h2>
+
+    <p> <a href="git-show-merges">git-show-merges</a> is a precursor to <a href="#git-wtf">git-wtf</a>.
+    It's a simple tool that shows you which branches have been merged in to the
+    current branch, and which haven't. That's it. You can also specify multiple
     non-topic branches (merge branches?) on the commandline.</p>
 
-    <p> <a href="ss2.png"><img src="ss2-small.png" alt="git-show-merges screenshot"/></a>  </p>
+    <div class="screencap"><code><pre>
+w@entry:~/devel/sup$ git show-merges
+merged into next:
+  attachments
+  color
+  edit-as-new-fix
+  find-in-buffer-fix
+  maildir-speedup
+  non-ascii-message-id
+  release-0.5
+  reply-from-hook
 
-    <h2>git-publish-branch</h2>
+not merged into next: 
+  encoding-tweaking
+  imap-cache-headers
+  imap-share-connections
+  join-threads-bugfix
+  local-changes-only
+  master
+  mbox-parse-fix
+  ncurses-widechar
+  ncursesw
+  release-0.4
+  todo-updates
+</pre></code></div>
+
+    <h2><a name="git-publish-branch">git-publish-branch</a></h2>
 
     <p> <a href="git-publish-branch">git-publish-branch</a> is a simple script
     to ease the unnecessarily complex task of "publishing" a branch, i.e.,
@@ -36,11 +130,11 @@
 
     <p>Useful if you publish your topic branches to the outside world.</p>
 
-    <h2>git-rank-contributors</h2>
+    <h2><a name="git-rank-contributors">git-rank-contributors</a></h2>
 
     <p> <a href="git-rank-contributors">git-rank-contributors</a> is a trivial
     script that paws through your logs and ranks all the contributors by
-    the size of their diffs. Remember, as always, bigger is better!</p>
+    the size of their diffs. As always, bigger is better!</p>
 
     <p> If you use <code>-v</code>, you'll get the raw diff sizes.</p>
 
@@ -50,7 +144,7 @@
     CREDITS file. It probably will require some editing in case people submit
     from more than one email address, though. </p>
 
-    <h2>git-walkthrough-add</h2>
+    <h2><a name="git-walkthrough-add">git-walkthrough-add</a> (deprecated)</h2>
 
     <p> <i>In recent gits, <code>git add -p</code> does exactly what this tool
     does. So I will not be putting a lot of energy into maintaining this any
@@ -66,8 +160,6 @@
     --darcs, which was very close to what I wanted, but wasn't quite it. In
     general git-wt-add makes no attempt to conform to the real darcs interface,
     but it's probably pretty close. </p>
-
-    <p> <a href="ss1.png"><img src="ss1-small.png" alt="git-wt-add screenshot"/></a> </p>
 
     <h2>Credit</h2>
 

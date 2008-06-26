@@ -34,3 +34,11 @@ a, a:visited
 {
 	border: 0;
 }
+
+.screencap {
+  border: solid 1px red;
+  background-color: black;
+  padding: 0.5em;
+  color: #aaa;
+  width: 75en;
+}
