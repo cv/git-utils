@@ -89,13 +89,16 @@ def show b, all_branches
     puts "Feature branches:"
     all_branches.each do |name, br|
       next if $config["versions"].include? br[:remote_branch]
-      ahead = commits_between b[:remote_branch], br[:local_branch]
-      if ahead.empty?
+      remote_ahead = commits_between b[:remote_branch], br[:local_branch]
+      local_ahead = commits_between b[:local_branch], br[:local_branch]
+      if local_ahead.empty? && remote_ahead.empty?
         puts "  [x] #{br[:name]} is merged in"
+      elsif local_ahead.empty?
+        puts "  (x) #{br[:name]} merged in (only locally)"
       else
         behind = commits_between br[:local_branch], b[:remote_branch]
-        puts "  [ ] #{br[:name]} is NOT merged in (#{ahead_behind_string ahead, behind})"
-        show_commits ahead, nil, "   "
+        puts "  [ ] #{br[:name]} is NOT merged in (#{ahead_behind_string local_ahead, behind})"
+        show_commits local_ahead, nil, "   "
       end
     end
   else
