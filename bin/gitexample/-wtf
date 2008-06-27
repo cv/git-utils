@@ -67,51 +67,51 @@ def show b, all_branches
     pullc = commits_between b[:local_branch], b[:remote_branch]
 
     if pushc.empty?
-      puts "  [x] in sync with remote"
+      puts "[x] in sync with remote"
     else
-      puts "  [ ] NOT in sync with remote"
-      show_commits pushc, nil, "   "
+      puts "[ ] NOT in sync with remote (needs push)"
+      show_commits pushc, nil, " "
     end
 
-    puts "Remote branch: #{b[:remote_branch]} (#{b[:remote_url]})"
+    puts "\nRemote branch: #{b[:remote_branch]} (#{b[:remote_url]})"
 
     if pullc.empty?
-      puts "  [x] in sync with local"
+      puts "[x] in sync with local"
     else
-      puts "  [ ] NOT in sync with local"
-      show_commits pullc, nil, "   "
+      puts "[ ] NOT in sync with local (needs pull)"
+      show_commits pullc, nil, " "
 
       warn = !pushc.empty? && !pullc.empty?
     end
   end
 
   if $config["versions"].include?(b[:remote_branch])
-    puts "Feature branches:"
+    puts "\nFeature branches:"
     all_branches.each do |name, br|
       next if $config["versions"].include? br[:remote_branch]
       remote_ahead = commits_between b[:remote_branch], br[:local_branch]
       local_ahead = commits_between b[:local_branch], br[:local_branch]
       if local_ahead.empty? && remote_ahead.empty?
-        puts "  [x] #{br[:name]} is merged in"
+        puts "[x] #{br[:name]} is merged in"
       elsif local_ahead.empty?
-        puts "  (x) #{br[:name]} merged in (only locally)"
+        puts "(x) #{br[:name]} merged in (only locally)"
       else
         behind = commits_between br[:local_branch], b[:remote_branch]
-        puts "  [ ] #{br[:name]} is NOT merged in (#{ahead_behind_string local_ahead, behind})"
+        puts "[ ] #{br[:name]} is NOT merged in (#{ahead_behind_string local_ahead, behind})"
         show_commits local_ahead, nil, "   "
       end
     end
   else
-    puts "Version branches:"
+    puts "\nVersion branches:"
     vb = $config["versions"] & (all_branches.map { |k, v| v[:remote_branch] })
     vb.each do |v|
       ahead = commits_between v, b[:local_branch]
       if ahead.empty?
-        puts "  [x] #{v} a mergee"
+        puts "[x] #{v} a mergee"
       else
         behind = commits_between b[:local_branch], v
-        puts "  [ ] #{v} NOT a mergee (#{ahead_behind_string behind, ahead})"
-        show_commits ahead, nil, "   "
+        puts "[ ] #{v} NOT a mergee (#{ahead_behind_string behind, ahead})"
+        show_commits ahead, nil, " "
       end
     end
   end
