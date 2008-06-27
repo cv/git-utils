@@ -101,7 +101,8 @@ def show b, all_branches
     end
   else
     puts "Version branches:"
-    $config["versions"].each do |v|
+    vb = $config["versions"] & (all_branches.map { |k, v| v[:remote_branch] })
+    vb.each do |v|
       ahead = commits_between v, b[:local_branch]
       if ahead.empty?
         puts "  [x] #{v} a mergee"
