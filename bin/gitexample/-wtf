@@ -45,7 +45,7 @@ def show_commits commits, label, prefix=""
     puts "#{prefix}#{label}:" if label
     commits[0 ... $config["max_commits"]].each { |c| puts "#{prefix}#{c}" }
     if commits.size > $config["max_commits"]
-      puts "#{prefix}  ... and #{commits.size - $config["max_commits"]} more."
+      puts "#{prefix}... and #{commits.size - $config["max_commits"]} more."
     end
   end
 end
@@ -58,6 +58,7 @@ end
 
 def show b, all_branches
   puts "Local branch: #{b[:local_branch]}"
+  warn = false
 
   unless b[:remote_branch]
     puts "Remote branch: <none>"
@@ -69,7 +70,7 @@ def show b, all_branches
       puts "  [x] in sync with remote"
     else
       puts "  [ ] NOT in sync with remote"
-      show_commits pushc, nil, "  "
+      show_commits pushc, nil, "   "
     end
 
     puts "Remote branch: #{b[:remote_branch]} (#{b[:remote_url]})"
@@ -78,11 +79,9 @@ def show b, all_branches
       puts "  [x] in sync with local"
     else
       puts "  [ ] NOT in sync with local"
-      show_commits pullc, nil, "  "
+      show_commits pullc, nil, "   "
 
-      if !pushc.empty? && !pullc.empty?
-        puts "WARNING: local and remote branches have diverged. A merge will occur unless you rebase."
-      end
+      warn = !pushc.empty? && !pullc.empty?
     end
   end
 
@@ -96,7 +95,7 @@ def show b, all_branches
       else
         behind = commits_between br[:local_branch], b[:remote_branch]
         puts "  [ ] #{br[:name]} is NOT merged in (#{ahead_behind_string ahead, behind})"
-        show_commits ahead, nil, "    "
+        show_commits ahead, nil, "   "
       end
     end
   else
@@ -109,10 +108,12 @@ def show b, all_branches
       else
         behind = commits_between b[:local_branch], v
         puts "  [ ] #{v} NOT a mergee (#{ahead_behind_string behind, ahead})"
-        show_commits ahead, nil, "    "
+        show_commits ahead, nil, "   "
       end
     end
   end
+
+  puts "\nWARNING: local and remote branches have diverged. A merge will occur unless you rebase." if warn
 end
 
 branches = `git show-ref`.inject({}) do |hash, l|
