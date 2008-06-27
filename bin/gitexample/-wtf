@@ -10,6 +10,8 @@ def die s
   exit(-1)
 end
 
+$long = ARGV.delete("--long") || ARGV.delete("-l")
+
 ## find config file
 $config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
   p = File.expand_path "."
@@ -35,7 +37,11 @@ end
 ## the set of commits in 'to' that aren't in 'from'.
 ## if empty, 'to' has been merged into 'from'.
 def commits_between from, to
-  `git log --pretty=format:"- %s [%h] (%ae; %ar)" #{from}..#{to}`.split(/[\r\n]+/)
+  if $long
+    `git log --pretty=format:"- %s [%h] (%ae; %ar)" #{from}..#{to}`
+  else
+    `git log --pretty=format:"- %s [%h]" #{from}..#{to}`
+  end.split(/[\r\n]+/)
 end
 
 def show_commits commits, label, prefix=""
