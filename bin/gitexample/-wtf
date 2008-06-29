@@ -91,10 +91,10 @@ def show b, all_branches
     end
   end
 
-  if $config["versions"].include?(b[:remote_branch])
-    puts "\nFeature branches:"
-    all_branches.each do |name, br|
-      next if $config["versions"].include? br[:remote_branch]
+  vbs, fbs = all_branches.partition { |name, br| $config["versions"].include? br[:remote_branch] }
+  if $config["versions"].include? b[:remote_branch]
+    puts "\nFeature branches:" unless fbs.empty?
+    fbs.each do |name, br|
       remote_ahead = commits_between b[:remote_branch], br[:local_branch]
       local_ahead = commits_between b[:local_branch], br[:local_branch]
       if local_ahead.empty? && remote_ahead.empty?
@@ -108,9 +108,8 @@ def show b, all_branches
       end
     end
   else
-    puts "\nVersion branches:"
-    vb = $config["versions"] & (all_branches.map { |k, v| v[:remote_branch] })
-    vb.each do |v|
+    puts "\nVersion branches:" unless vbs.empty? # unlikely
+    vbs.each do |v, br|
       ahead = commits_between v, b[:local_branch]
       if ahead.empty?
         puts "[x] #{v} a mergee"
