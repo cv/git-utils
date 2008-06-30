@@ -40,7 +40,7 @@ def die s=nil
   exit(-1)
 end
 
-head = `git-symbolic-ref HEAD`.chomp.gsub(/refs\/heads\//, "")
+head = `git symbolic-ref HEAD`.chomp.gsub(/refs\/heads\//, "")
 delete = ARGV.delete "-d"
 $fake = ARGV.delete "-n"
 branch = (ARGV.shift || head).gsub(/refs\/heads\//, "")

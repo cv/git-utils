@@ -18,7 +18,7 @@
 ## You can find the GNU General Public License at:
 ##   http://www.gnu.org/licenses/
 heads = if ARGV.empty?
-  [`git-symbolic-ref HEAD`.chomp]
+  [`git symbolic-ref HEAD`.chomp]
 else
   ARGV
 end.map { |r| r.gsub(/refs\/heads\//, "") }

@@ -27,7 +27,7 @@ $config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
     YAML::load_file fn
   else
     #$stderr.puts "Warning: no config file found. Specify version branches by creating <project_root>/#{CONFIG_FN}"
-    remotes = `git-config --get-regexp ^remote\\.`.split("\n")
+    remotes = `git config --get-regexp ^remote\\.`.split("\n")
     die "I can't find your gits" if remotes.empty?
     repo = remotes.first =~ /^remote\.(\S+?)\./ ? $1 : "origin"
     { "versions" => %w(master next edge).map { |b| "#{repo}/#{b}" } }
@@ -133,13 +133,13 @@ branches = `git show-ref`.inject({}) do |hash, l|
   hash
 end
 
-remotes = `git-config --get-regexp ^remote\.\*\.url`.inject({}) do |hash, l|
+remotes = `git config --get-regexp ^remote\.\*\.url`.inject({}) do |hash, l|
   l =~ /^remote\.(.+?)\.url (.+)$/ or next hash
   hash[$1] ||= $2
   hash
 end
 
-`git-config --get-regexp ^branch\.`.each do |l|
+`git config --get-regexp ^branch\.`.each do |l|
   case l
   when /branch\.(.*?)\.remote (.+)/
     branches[$1] ||= {}
@@ -154,7 +154,7 @@ end
 branches.each { |k, v| v[:remote_branch] = "#{v[:remote]}/#{v[:remote_mergepoint]}" if v[:remote] && v[:remote_mergepoint] }
 
 targets = if ARGV.empty?
-  [`git-symbolic-ref HEAD`.chomp.sub(/^refs\/heads\//, "")]
+  [`git symbolic-ref HEAD`.chomp.sub(/^refs\/heads\//, "")]
 else
   ARGV
 end.map { |t| branches[t] or die "can't find branch #{t.inspect}" }
