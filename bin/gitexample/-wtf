@@ -66,9 +66,7 @@ def show b, all_branches
   puts "Local branch: #{b[:local_branch]}"
   warn = false
 
-  unless b[:remote_branch]
-    puts "Remote branch: <none>"
-  else
+  if b[:remote_branch]
     pushc = commits_between b[:remote_branch], b[:local_branch]
     pullc = commits_between b[:local_branch], b[:remote_branch]
 
@@ -112,11 +110,10 @@ def show b, all_branches
     vbs.each do |v, br|
       ahead = commits_between v, b[:local_branch]
       if ahead.empty?
-        puts "[x] #{v} a mergee"
+        puts "[x] merged into #{v}"
       else
         behind = commits_between b[:local_branch], v
-        puts "[ ] #{v} NOT a mergee (#{ahead_behind_string behind, ahead})"
-        show_commits ahead, nil, " "
+        puts "[ ] NOT merged into #{v}"
       end
     end
   end
