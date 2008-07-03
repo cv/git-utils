@@ -64,16 +64,18 @@ end
 
 def show b, all_branches
   puts "Local branch: #{b[:local_branch]}"
-  warn = false
+  both = false
 
   if b[:remote_branch]
     pushc = commits_between b[:remote_branch], b[:local_branch]
     pullc = commits_between b[:local_branch], b[:remote_branch]
 
+    both = !pushc.empty? && !pullc.empty?
     if pushc.empty?
       puts "[x] in sync with remote"
     else
-      puts "[ ] NOT in sync with remote (needs push)"
+      action = both ? "push after rebase / merge" : "push"
+      puts "[ ] NOT in sync with remote (needs #{action})"
       show_commits pushc, nil, " "
     end
 
@@ -82,10 +84,11 @@ def show b, all_branches
     if pullc.empty?
       puts "[x] in sync with local"
     else
-      puts "[ ] NOT in sync with local (needs pull)"
+      action = pushc.empty? ? "merge" : "rebase / merge"
+      puts "[ ] NOT in sync with local (needs #{action})"
       show_commits pullc, nil, " "
 
-      warn = !pushc.empty? && !pullc.empty?
+      both = !pushc.empty? && !pullc.empty?
     end
   end
 
@@ -118,7 +121,7 @@ def show b, all_branches
     end
   end
 
-  puts "\nWARNING: local and remote branches have diverged. A merge will occur unless you rebase." if warn
+  puts "\nWARNING: local and remote branches have diverged. A merge will occur unless you rebase." if both
 end
 
 branches = `git show-ref`.inject({}) do |hash, l|
