@@ -1,12 +1,50 @@
-git-PS1              # shows the current branch in the bash prompt
-git-incoming         # shows incoming commits from the tracked (or specified) branch
-git-incoming-short   # same but shorter
-git-iterate          # runs a given script over every revision in the current repository
-git-last             # git last 3 (show the last 3 commits)
-git-outgoing         # show outgoing commits to the tracked (or specified) branch
-git-outgoing-short   # same but shorter
-git-patch            # format a patch and put it into ~/Documents/Patches/<Project>/<branch>.patch
-git-push-all         # push to all remotes
-git-switch           # like checkout, but with auto-stash
-git-pack-config      # put .git/config into the repository for portable configs
-git-unpack-config    # put .git/config back into place
+h1. Git Utils
+
+
+h3. git-PS1
+
+Shows the current branch in the bash prompt
+
+h3. git-incoming
+
+Shows incoming commits from the tracked (or specified) branch
+
+h3. git-incoming-short
+
+Same but shorter
+
+h3. git-iterate
+
+Runs a given script over every revision in the current repository
+
+h3. git-last
+
+git last 3 (show the last 3 commits)
+
+h3. git-outgoing
+
+Show outgoing commits to the tracked (or specified) branch
+
+h3. git-outgoing-short
+
+Same but shorter
+
+h3. git-patch
+
+Format a patch and put it into ~/Documents/Patches/<Project>/<branch>.patch
+
+h3. git-push-all
+
+Push to all remotes
+
+h3. git-switch
+
+Like checkout, but with auto-stash
+
+h3. git-pack-config
+
+Put .git/config into the repository for portable configs
+
+h3. git-unpack-config 
+
+Put .git/config back into place
