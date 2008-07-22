@@ -1,5 +1,7 @@
+git-PS1              # shows the current branch in the bash prompt
 git-incoming         # shows incoming commits from the tracked (or specified) branch
 git-incoming-short   # same but shorter
+git-iterate          # runs a given script over every revision in the current repository
 git-last             # git last 3 (show the last 3 commits)
 git-outgoing         # show outgoing commits to the tracked (or specified) branch
 git-outgoing-short   # same but shorter
