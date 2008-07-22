@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# git-histogram
+# git-iterate
 #
 # Runs a script for every commit in a git repository
 # 
-# Example: git-histogram 'echo `flog -s app` `flog -s spec`'
+# Example: git-iterate 'echo `flog -s app` `flog -s spec`'
 #
 
 for i in `ruby -e 'puts %x{git log}.grep(/^commit/).map {|line| line.gsub(/commit /, "").strip }.reverse'`
