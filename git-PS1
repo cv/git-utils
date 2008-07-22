@@ -1,0 +1,17 @@
+#!/bin/bash
+# 
+# Taken from http://kerneltrap.org/mailarchive/git/2006/11/16/230518
+# 
+# In your .profile, add:
+# 
+#   export PS1='$(git-PS1 "[\u@\h \W]\$ ")'
+# 
+BRANCH=$(git symbolic-ref HEAD 2>/dev/null) || { echo "$@" ; exit ; }
+BRANCH=${BRANCH#refs/heads/}
+
+RELATIVE=$(git rev-parse --show-prefix) 
+RELATIVE="${RELATIVE//%\/}"
+
+LOCATION="${PWD%/$RELATIVE}"
+
+echo "[$BRANCH!${LOCATION/*\/}${RELATIVE:+/$RELATIVE}]$ "
