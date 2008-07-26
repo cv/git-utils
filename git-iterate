@@ -6,9 +6,5 @@
 # 
 # Example: git-iterate 'echo `flog -s app` `flog -s spec`'
 #
-
-for i in `ruby -e 'puts %x{git log}.grep(/^commit/).map {|line| line.gsub(/commit /, "").strip }.reverse'`
-do
-  git reset -q --hard $i
-  eval $* $i
-done
+# FIXME: unsafe regex
+git-filter-branch --tree-filter "$1" | sed s/Rewrite.*\)//g
