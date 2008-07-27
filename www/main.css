@@ -36,9 +36,12 @@ a, a:visited
 }
 
 .screencap {
-  border: solid 1px red;
   background-color: black;
-  padding: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 1px;
+  padding-bottom: 1px;
   color: #aaa;
-  width: 75en;
+  width: 45em;
+  margin-bottom: 1em;
 }

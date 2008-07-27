@@ -36,8 +36,30 @@
 
     <p>Use immediately after <code>git fetch</code>.</p>
 
+    <p>Examples:
+
     <div class="screencap"><code><pre>
-w@entry:~/devel/sup$ git wtf
+$ git wtf
+Local branch: heads/master
+[ ] NOT in sync with remote (needs push)
+ - fancify issue links in HTML by colorizing the status [17fda75]
+ - add commits tagged with Ditz-issue and the id to the commit list for an issue [6dcea0a]
+ - add git plugin to manifest [8098f34]
+ - add completion scripts to manifest [1d0b97e]
+ - move global functions into Ditz module namespace [be41ff0]
+
+Remote branch: origin/master (git@gitorious.org:ditz/mainline.git)
+[x] in sync with local
+
+Feature branches:
+[x] plugins is merged in
+[ ] full-arg-parsing is NOT merged in (1 commit ahead; 8 commits behind)
+   - tmp [874da45]
+[x] better-html is merged in
+
+$</pre></code></div>
+
+    <div class="screencap"><code><pre>$ git wtf
 Local branch: heads/next
   [x] in sync with remote
 Remote branch: origin/next (git+ssh://wmorgan@repo.or.cz/srv/git/sup.git)
@@ -82,7 +104,9 @@ Feature branches:
   [x] edit-as-new-fix is merged in
   [x] attachments is merged in
   [x] find-in-buffer-fix is merged in
-</pre></code></div>
+
+$</pre></code></div>
+</p>
 
     <h2><a name="git-show-merges">git-show-merges</a></h2>
 
@@ -92,7 +116,7 @@ Feature branches:
     non-topic branches (merge branches?) on the commandline.</p>
 
     <div class="screencap"><code><pre>
-w@entry:~/devel/sup$ git show-merges
+$ git show-merges
 merged into next:
   attachments
   color
@@ -115,7 +139,8 @@ not merged into next:
   ncursesw
   release-0.4
   todo-updates
-</pre></code></div>
+
+$</pre></code></div>
 
     <h2><a name="git-publish-branch">git-publish-branch</a></h2>
 
