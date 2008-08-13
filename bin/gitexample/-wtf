@@ -153,6 +153,7 @@ end
 
 branches.each { |k, v| v[:remote_branch] = "#{v[:remote]}/#{v[:remote_mergepoint]}" if v[:remote] && v[:remote_mergepoint] }
 
+show_dirty = ARGV.empty?
 targets = if ARGV.empty?
   [`git symbolic-ref HEAD`.chomp.sub(/^refs\/heads\//, "")]
 else
@@ -160,3 +161,10 @@ else
 end.map { |t| branches[t] or die "can't find branch #{t.inspect}" }
 
 targets.each { |t| show t, branches }
+
+modified = show_dirty && `git ls-files -m` != ""
+uncommitted = show_dirty &&  `git diff-index --cached HEAD` != ""
+
+puts if modified || uncommitted
+puts "NOTE: working directory contains modified files" if modified
+puts "NOTE: staging area contains staged but uncommitted files" if uncommitted
