@@ -44,7 +44,7 @@ def commits_between from, to
   end.split(/[\r\n]+/)
 end
 
-def show_commits commits, prefix=" "
+def show_commits commits, prefix="    "
   if commits.empty?
     puts "#{prefix} none"
   else
