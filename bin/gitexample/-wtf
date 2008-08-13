@@ -44,11 +44,10 @@ def commits_between from, to
   end.split(/[\r\n]+/)
 end
 
-def show_commits commits, label, prefix=""
+def show_commits commits, prefix=" "
   if commits.empty?
-    puts "#{prefix}#{label}: none"
+    puts "#{prefix} none"
   else
-    puts "#{prefix}#{label}:" if label
     commits[0 ... $config["max_commits"]].each { |c| puts "#{prefix}#{c}" }
     if commits.size > $config["max_commits"]
       puts "#{prefix}... and #{commits.size - $config["max_commits"]} more."
@@ -76,7 +75,7 @@ def show b, all_branches
     else
       action = both ? "push after rebase / merge" : "push"
       puts "[ ] NOT in sync with remote (needs #{action})"
-      show_commits pushc, nil, " "
+      show_commits pushc
     end
 
     puts "\nRemote branch: #{b[:remote_branch]} (#{b[:remote_url]})"
@@ -86,7 +85,7 @@ def show b, all_branches
     else
       action = pushc.empty? ? "merge" : "rebase / merge"
       puts "[ ] NOT in sync with local (needs #{action})"
-      show_commits pullc, nil, " "
+      show_commits pullc
 
       both = !pushc.empty? && !pullc.empty?
     end
@@ -105,7 +104,7 @@ def show b, all_branches
       else
         behind = commits_between br[:local_branch], b[:remote_branch]
         puts "[ ] #{br[:name]} is NOT merged in (#{ahead_behind_string local_ahead, behind})"
-        show_commits local_ahead, nil, "   "
+        show_commits local_ahead
       end
     end
   else
@@ -115,8 +114,9 @@ def show b, all_branches
       if ahead.empty?
         puts "[x] merged into #{v}"
       else
-        behind = commits_between b[:local_branch], v
-        puts "[ ] NOT merged into #{v}"
+        #behind = commits_between b[:local_branch], v
+        puts "[ ] NOT merged into #{v} (#{ahead.size.pluralize 'commit'} ahead)"
+        show_commits ahead
       end
     end
   end
