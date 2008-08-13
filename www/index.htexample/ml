@@ -169,6 +169,8 @@ $</pre></code></div>
     CREDITS file. It probably will require some editing in case people submit
     from more than one email address, though. </p>
 
+    <p> This is similar to <code>git shortlog -s -n --no-merges</code>, but counts diff size rather than number of commits. </p>
+
     <h2><a name="git-walkthrough-add">git-walkthrough-add</a> (deprecated)</h2>
 
     <p> <i>In recent gits, <code>git add -p</code> does exactly what this tool
