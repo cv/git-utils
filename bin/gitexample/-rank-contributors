@@ -24,11 +24,13 @@
 
 class String
   def obfuscate; gsub(/@/, " at the ").gsub(/\.(\w+)(>|$)/, ' dot \1s\2') end
+  def htmlize; gsub("&", "&amp;").gsub("<", "&lt;").gsub(">", "&gt;") end
 end
 
 lines = {}
 verbose = ARGV.delete("-v")
 obfuscate = ARGV.delete("-o")
+htmlize = ARGV.delete("-h")
 
 author = nil
 state = :pre_author
@@ -49,6 +51,7 @@ end
 
 lines.sort_by { |a, c| -c }.each do |a, c|
   a = a.obfuscate if obfuscate
+  a = a.htmlize if htmlize
   if verbose
     puts "#{a}: #{c} lines of diff"
   else
