@@ -11,6 +11,7 @@ def die s
 end
 
 $long = ARGV.delete("--long") || ARGV.delete("-l")
+$all = ARGV.delete("--all") || ARGV.delete("-a")
 
 ## find config file
 $config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
@@ -48,10 +49,10 @@ def show_commits commits, prefix="    "
   if commits.empty?
     puts "#{prefix} none"
   else
-    commits[0 ... $config["max_commits"]].each { |c| puts "#{prefix}#{c}" }
-    if commits.size > $config["max_commits"]
-      puts "#{prefix}... and #{commits.size - $config["max_commits"]} more."
-    end
+    max = $all ? commits.size : $config["max_commits"]
+    max -= 1 if max == commits.size - 1 # never show "and 1 more"
+    commits[0 ... max].each { |c| puts "#{prefix}#{c}" }
+    puts "#{prefix}... and #{commits.size - max} more." if commits.size > max
   end
 end
 
