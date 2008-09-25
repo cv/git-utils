@@ -27,14 +27,26 @@
 
     <h2><a name="git-wtf">git-wtf</a></h2>
 
-    <p> <a href="git-wtf">git-wtf</a> is my primary tool for working with feature branches
-    since I've been trying to wean myself off of <code>gitk</code>. If you're on a feature
-    branch, it tells you which version branches it's merged into. If you're on a version
-    branch, it tells you which feature branches are merged in and which aren't. For every branch,
-    if it's a tracking branch, it tells you which commits need to be pulled and which need to be pushed.
-    </p>
+    <p> <a href="git-wtf">git-wtf</a> is a script to display the state of your repository in a readable and easy-to-scan
+format. </p>
 
-    <p>Use immediately after <code>git fetch</code>.</p>
+<p>git-wtf tries to ease the task of having many git branches. It's also useful
+for getting a summary of how tracking branches relate to a remote server.</p>
+
+<p>git-wtf shows you:<ul>
+<li> How your branch relates to the remote repo, if it's a tracking branch.</li>
+<li> How your branch relates to non-feature ("version") branches, if it's a
+  feature branch.</li>
+<li> How your branch relates to the feature branches, if it's a version branch.</li>
+</ul>
+</p>
+<p>For each of these relationships, git-wtf displays the commits pending on
+either side, if any. It displays checkboxes along the side for easy scanning
+of merged/non-merged branches.</p>
+
+<p>If you're working against a remote repo, git-wtf is best used between a 'git
+fetch' and a 'git merge' (or 'git pull' if you don't mind the redundant
+network access).</p>
 
     <p>Examples:
 
