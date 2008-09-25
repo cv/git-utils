@@ -56,11 +56,6 @@ CONFIG_FN = ".git-wtfrc"
 
 class Numeric; def pluralize s; "#{to_s} #{s}" + (self != 1 ? "s" : "") end end
 
-def die s
-  $stderr.puts "Error: #{s}"
-  exit(-1)
-end
-
 $long = ARGV.delete("--long") || ARGV.delete("-l")
 $all = ARGV.delete("--all") || ARGV.delete("-a")
 
@@ -80,7 +75,7 @@ $config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
   else
     #$stderr.puts "Warning: no config file found. Specify version branches by creating <project_root>/#{CONFIG_FN}"
     remotes = `git config --get-regexp ^remote\\.`.split("\n")
-    die "I can't find your gits" if remotes.empty?
+    abort "Error: I'm not hard-core enough to deal without any remotes." if remotes.empty?
     repo = remotes.first =~ /^remote\.(\S+?)\./ ? $1 : "origin"
     { "versions" => %w(master next edge).map { |b| "#{repo}/#{b}" } }
   end
@@ -210,7 +205,7 @@ targets = if ARGV.empty?
   [`git symbolic-ref HEAD`.chomp.sub(/^refs\/heads\//, "")]
 else
   ARGV
-end.map { |t| branches[t] or die "can't find branch #{t.inspect}" }
+end.map { |t| branches[t] or abort "Error: can't find branch #{t.inspect}." }
 
 targets.each { |t| show t, branches }
 
