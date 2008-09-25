@@ -63,7 +63,7 @@ $all = ARGV.delete("--all") || ARGV.delete("-a")
 $dump_config = ARGV.delete("--dump-config")
 
 ## find config file
-$config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
+$config = { "versions" => %w(heads/master heads/next heads/edge), "ignore" => [], "max_commits" => 5 }.merge begin
   p = File.expand_path "."
   fn = while true
     fn = File.join p, CONFIG_FN
@@ -73,15 +73,7 @@ $config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
     p = pp
   end
 
-  if fn
-    YAML::load_file fn
-  else
-    #$stderr.puts "Warning: no config file found. Specify version branches by creating <project_root>/#{CONFIG_FN}"
-    remotes = `git config --get-regexp ^remote\\.`.split("\n")
-    abort "Error: I'm not hard-core enough to deal without any remotes." if remotes.empty?
-    repo = remotes.first =~ /^remote\.(\S+?)\./ ? $1 : "origin"
-    { "versions" => %w(master next edge).map { |b| "#{repo}/#{b}" } }
-  end
+  (fn && YAML::load_file(fn)) || {} # YAML turns empty files into false
 end
 
 if $dump_config
@@ -146,18 +138,18 @@ def show b, all_branches
     end
   end
 
-  vbs, fbs = all_branches.partition { |name, br| $config["versions"].include? br[:remote_branch] }
-  if $config["versions"].include? b[:remote_branch]
+  vbs, fbs = all_branches.partition { |name, br| $config["versions"].include? br[:local_branch] }
+  if $config["versions"].include? b[:local_branch]
     puts "\nFeature branches:" unless fbs.empty?
     fbs.each do |name, br|
-      remote_ahead = commits_between b[:remote_branch], br[:local_branch]
+      remote_ahead = b[:remote_branch] ? commits_between(b[:remote_branch], br[:local_branch]) : []
       local_ahead = commits_between b[:local_branch], br[:local_branch]
       if local_ahead.empty? && remote_ahead.empty?
         puts "[x] #{br[:name]} is merged in"
-      elsif local_ahead.empty?
+      elsif local_ahead.empty? && b[:remote_branch]
         puts "(x) #{br[:name]} merged in (only locally)"
       else
-        behind = commits_between br[:local_branch], b[:remote_branch]
+        behind = commits_between br[:local_branch], b[:local_branch]
         puts "[ ] #{br[:name]} is NOT merged in (#{ahead_behind_string local_ahead, behind})"
         show_commits local_ahead
       end
