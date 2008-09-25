@@ -1,5 +1,56 @@
 #!/usr/bin/env ruby
 
+## git-wtf: display the state of your repository in a readable and easy-to-scan
+## format.
+##
+## git-wtf tries to ease the task of having many git branches. It's also useful
+## for getting a summary of how tracking branches relate to a remote server.
+##
+## git-wtf shows you:
+## - How your branch relates to the remote repo, if it's a tracking branch.
+## - How your branch relates to non-feature ("version") branches, if it's a
+##   feature branch.
+## - How your branch relates to the feature branches, if it's a version branch.
+##
+## For each of these relationships, git-wtf displays the commits pending on
+## either side, if any. It displays checkboxes along the side for easy scanning
+## of merged/non-merged branches.
+##
+## If you're working against a server, git-wtf is best used between a 'git
+## fetch' and a 'git merge' (or 'git pull' if you don't mind the redundant
+## network access).
+##
+## Usage: git wtf [branch+] [-l|--long] [-a|--all]
+##
+## If [branch] is not specified, git-wtf will use the current branch.  With
+## --long, you'll see author info for each commit. With --all, you'll see
+## all commits, not just the first 5.
+##
+## git-wtf uses some heuristics to determine which branches are version
+## branches, and which are feature branches. (Specifically, it assumes the
+## first remote listed is the primary remote, and looks for branches named
+## "master", "next" and "edge" off of that.) If it guesses incorrectly, you
+## will have to create a .git-wtfrc file.
+##
+## git-wtf looks for a .git-wtfrc file in the current directory, and
+## recursively up to the root. This is a YAML file that specifies the
+## version branches, any branches to ignore, and the max number of commits
+## to display when --all isn't used.
+##
+## git-wtf Copyright 2008 William Morgan <wmorgan-git-wt-add@masanjin.net>.
+## This program is free software: you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by the Free
+## Software Foundation, either version 3 of the License, or (at your option)
+## any later version.
+##
+## This program is distributed in the hope that it will be useful, but WITHOUT
+## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+## FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+## more details.
+##
+## You can find the GNU General Public License at: http://www.gnu.org/licenses/
+
+
 require 'yaml'
 CONFIG_FN = ".git-wtfrc"
 
@@ -169,3 +220,6 @@ uncommitted = show_dirty &&  `git diff-index --cached HEAD` != ""
 puts if modified || uncommitted
 puts "NOTE: working directory contains modified files" if modified
 puts "NOTE: staging area contains staged but uncommitted files" if uncommitted
+
+# the end!
+
