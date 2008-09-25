@@ -20,11 +20,12 @@
 ## fetch' and a 'git merge' (or 'git pull' if you don't mind the redundant
 ## network access).
 ##
-## Usage: git wtf [branch+] [-l|--long] [-a|--all]
+## Usage: git wtf [branch+] [-l|--long] [-a|--all] [--dump-config]
 ##
 ## If [branch] is not specified, git-wtf will use the current branch.  With
 ## --long, you'll see author info for each commit. With --all, you'll see
-## all commits, not just the first 5.
+## all commits, not just the first 5. With --dump-config, git-wtf will
+## print out its current configuration in YAML format and exit.
 ##
 ## git-wtf uses some heuristics to determine which branches are version
 ## branches, and which are feature branches. (Specifically, it assumes the
@@ -35,7 +36,8 @@
 ## git-wtf looks for a .git-wtfrc file in the current directory, and
 ## recursively up to the root. This is a YAML file that specifies the
 ## version branches, any branches to ignore, and the max number of commits
-## to display when --all isn't used.
+## to display when --all isn't used. To build a configuration file, run
+## "git-wtf --dump-config > .git-wtfrc" and edit it.
 ##
 ## git-wtf Copyright 2008 William Morgan <wmorgan-git-wt-add@masanjin.net>.
 ## This program is free software: you can redistribute it and/or modify it
@@ -58,6 +60,7 @@ class Numeric; def pluralize s; "#{to_s} #{s}" + (self != 1 ? "s" : "") end end
 
 $long = ARGV.delete("--long") || ARGV.delete("-l")
 $all = ARGV.delete("--all") || ARGV.delete("-a")
+$dump_config = ARGV.delete("--dump-config")
 
 ## find config file
 $config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
@@ -79,6 +82,11 @@ $config = { "versions" => [], "ignore" => [], "max_commits" => 5 }.merge begin
     repo = remotes.first =~ /^remote\.(\S+?)\./ ? $1 : "origin"
     { "versions" => %w(master next edge).map { |b| "#{repo}/#{b}" } }
   end
+end
+
+if $dump_config
+  puts $config.to_yaml
+  exit(0)
 end
 
 ## the set of commits in 'to' that aren't in 'from'.
