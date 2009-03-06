@@ -1,0 +1,13 @@
+git-incoming         # shows incoming commits from the tracked (or specified) branch
+git-incoming-short   # same but shorter
+git-last             # git last 3 (show the last 3 commits)
+git-outgoing         # show outgoing commits to the tracked (or specified) branch
+git-outgoing-short   # same but shorter
+git-patch            # format a patch and put it into ~/Documents/Patches/<Project>/<branch>.patch
+git-push-all         # push to all remotes
+git-switch           # like checkout, but with auto-stash
+git-pack-config      # put .git/config into the repository for portable configs
+git-unpack-config    # put .git/config back into place
+git-wip              # store your existing changes as a "work in progress" commit to facilitate rebasing
+git-unwip            # run this after rebasing to turn the wip commit back into unstaged changes
+git-wtf              # show the current status of your git repository, including feature branches
