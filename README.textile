@@ -1,5 +1,6 @@
 h1. Git Utils
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 h3. git-PS1
 
